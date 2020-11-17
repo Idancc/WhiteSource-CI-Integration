@@ -1,4 +1,4 @@
-name: WhiteSource Github action for CI integration
+name: WhiteSource CI integration
 
 on:
   push:

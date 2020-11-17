@@ -1,4 +1,5 @@
 name: WhiteSource CI integration
+description: automation for executing the WS agent in an organization with configuration files
 
 on:
   push:

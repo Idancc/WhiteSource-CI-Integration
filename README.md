@@ -10,11 +10,11 @@ How to use the action:
       
 2. Define the following secrets:
 
-WHITESOURCE_GH_PAT: GH private access token (enable SSO if needed, defined in the organization level)
-WHITESOURCE_CONFIG_REPO: The path to your config files repository in the following format organization/repoName.git (defined in the organization level)
+WHITESOURCE_GH_PAT:       GH private access token (enable SSO if needed, defined in the organization level)
+WHITESOURCE_CONFIG_REPO:  The path to your config files repository in the following format organization/repoName.git (defined in the organization level)
 WHITESOURCE_PRODUCT_NAME: The product name from the WS UI (define this variable in the repository level to support many products if needed)
-WHITESOURCE_API_KEY: Your organization WS API token (defined in the organization level)
-WHITESOURCE_NPM_TOKEN: NPM token to access private organizations if needed (defined in the organization level)
+WHITESOURCE_API_KEY:      Your organization WS API token (defined in the organization level)
+WHITESOURCE_NPM_TOKEN:    NPM token to access private organizations if needed (defined in the organization level)
       
 
 

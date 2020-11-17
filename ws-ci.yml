@@ -1,0 +1,56 @@
+name: WhiteSource Github action for CI integration
+
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+      with:
+         # run on the current branch 
+         ref: ${{ github.ref }}
+    
+    - name: Downloading the WS config file
+      # Download the project config file repository.
+      run: |
+        git clone https://$WHITESOURCE_GH_PAT@github.com/$WHITESOURCE_CONFIG_REPO |& tee repo.txt
+        repoName=$(cat repo.txt | grep Cloning | cut -d"'" -f2) 
+        cp ./$repoName/$WHITESOURCE_PRODUCT_NAME/$WHITESOURCE_PROJECT_NAME/wss-generated-file-CI.config .
+      env:
+         WHITESOURCE_PRODUCT_NAME: ${{ secrets.WHITESOURCE_PRODUCT_NAME }}   # the product name can be found in the WS UI (case sensitive)
+         WHITESOURCE_PROJECT_NAME: ${{ github.event.repository.name }} # the repo name (also the project name in the WS ui)
+         WHITESOURCE_GH_PAT: ${{ secrets.WHITESOURCE_GH_PAT }} # Github personal access token that is a member of the organization
+         WHITESOURCE_CONFIG_REPO: ${{ secrets.WHITESOURCE_CONFIG_REPO }} # in the following format Org/repo-name.git
+      
+    - name: Install project prerequisites 
+      # install dependencies based on the technology in use 
+      run: |
+         sudo apt update
+         if grep -q npm wss-generated-file-CI.config; then apt install npm; fi
+         if grep -q gradle wss-generated-file-CI.config; then apt install gradle; fi
+         if grep -q hex wss-generated-file-CI.config; then apt install elixir; fi
+
+    - name: Downloading the WS agent 
+      run: curl -LJO https://github.com/whitesource/unified-agent-distribution/releases/latest/download/wss-unified-agent.jar
+      
+    - name: Replace the API token
+      # use sed to replace the token in the config file 
+      run: sed -i "s/<API_TOKEN>/$KEY/g" wss-generated-file-CI.config
+      env:
+         KEY: ${{ secrets.WHITESOURCE_API_KEY }}
+         
+    - name: Execute the scan
+      run: java -jar wss-unified-agent.jar -c wss-generated-file-CI.config -logLevel debug
+      env:
+         NPM_TOKEN: ${{ secrets.WHITESOURCE_NPM_TOKEN }} 
+         
+     # print the policy rejection summary to know what needs to be done 
+    - name: Print the Policy Rejection Summary
+       if: ${{ always() }}
+       run: [ -f ./whitesource/policyRejectionSummary.json ] && cat ./whitesource/policyRejectionSummary.json

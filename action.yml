@@ -12,11 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v2
-      with:
-         # run on the current branch 
-         ref: ${{ github.ref }}
-    
+  
     - name: Downloading the WS config file
       # Download the project config file repository.
       run: |

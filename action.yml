@@ -7,10 +7,8 @@ on:
   pull_request:
     branches: [ $default-branch ]
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    
+runs:
+    using: "composite"    
     steps:
   
     - name: Downloading the WS config file

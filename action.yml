@@ -9,6 +9,9 @@ on:
 
 runs:
     using: "composite" 
+    defaults:
+      run:
+        shell: bash
     steps:
   
     - name: Downloading the WS config file
@@ -18,7 +21,6 @@ runs:
         repoName=$(cat repo.txt | grep Cloning | cut -d"'" -f2) 
         cp ./$repoName/$WS_PRODUCT_NAME/$WS_PROJECT_NAME/wss-generated-file-CI.config .
     - shell: bash 
-    
       env:
          WS_PRODUCT_NAME: $WHITESOURCE_PRODUCT_NAME   # the product name can be found in the WS UI (case sensitive)
          WS_PROJECT_NAME: $WHITESOURCE_PROJECT_NAME # the repo name (also the project name in the WS ui)

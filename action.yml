@@ -8,7 +8,8 @@ on:
     branches: [ $default-branch ]
 
 runs:
-    using: "composite"    
+    using: "composite" 
+    shell: bash
     steps:
   
     - name: Downloading the WS config file

@@ -52,6 +52,5 @@ runs:
          
      # print the policy rejection summary to know what needs to be done 
     - name: Print the Policy Rejection Summary
-      if: always()
       run: if [ -f ./whitesource/policyRejectionSummary.json ] && cat ./whitesource/policyRejectionSummary.json
       shell: bash

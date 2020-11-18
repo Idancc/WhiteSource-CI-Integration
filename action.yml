@@ -16,14 +16,14 @@ jobs:
     - name: Downloading the WS config file
       # Download the project config file repository.
       run: |
-        git clone https://$WHITESOURCE_GH_PAT@github.com/$WHITESOURCE_CONFIG_REPO |& tee repo.txt
+        git clone https://$WS_GH_PAT@github.com/$WS_CONFIG_REPO |& tee repo.txt
         repoName=$(cat repo.txt | grep Cloning | cut -d"'" -f2) 
-        cp ./$repoName/$WHITESOURCE_PRODUCT_NAME/$WHITESOURCE_PROJECT_NAME/wss-generated-file-CI.config .
+        cp ./$repoName/$WS_PRODUCT_NAME/$WS_PROJECT_NAME/wss-generated-file-CI.config .
       env:
-         WHITESOURCE_PRODUCT_NAME: ${{ secrets.WHITESOURCE_PRODUCT_NAME }}   # the product name can be found in the WS UI (case sensitive)
-         WHITESOURCE_PROJECT_NAME: ${{ github.event.repository.name }} # the repo name (also the project name in the WS ui)
-         WHITESOURCE_GH_PAT: ${{ secrets.WHITESOURCE_GH_PAT }} # Github personal access token that is a member of the organization
-         WHITESOURCE_CONFIG_REPO: ${{ secrets.WHITESOURCE_CONFIG_REPO }} # in the following format Org/repo-name.git
+         WS_PRODUCT_NAME: $WHITESOURCE_PRODUCT_NAME   # the product name can be found in the WS UI (case sensitive)
+         WS_PROJECT_NAME: $WHITESOURCE_PROJECT_NAME # the repo name (also the project name in the WS ui)
+         WS_GH_PAT: $WHITESOURCE_GH_PAT # Github personal access token that is a member of the organization
+         WS_CONFIG_REPO: $WHITESOURCE_CONFIG_REPO # in the following format Org/repo-name.git
       
     - name: Install project prerequisites 
       # install dependencies based on the technology in use 

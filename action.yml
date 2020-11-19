@@ -24,6 +24,7 @@ runs:
          if grep -q npm wss-generated-file-CI.config; then apt install npm; fi
          if grep -q gradle wss-generated-file-CI.config; then apt install gradle; fi
          if grep -q hex wss-generated-file-CI.config; then apt install elixir; fi
+         if grep -q python wss-generated-file-CI.config; then apt-get install virtualenv; fi
       shell: bash
       
     - name: Downloading the WS agent 

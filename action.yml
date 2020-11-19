@@ -43,5 +43,5 @@ runs:
          
      # print the policy rejection summary to know what needs to be done 
     - name: Print the Policy Rejection Summary
-      run: if [ -f ./whitesource/policyRejectionSummary.json ] && cat ./whitesource/policyRejectionSummary.json
+      run: if [ -f ./whitesource/policyRejectionSummary.json ]; then cat ./whitesource/policyRejectionSummary.json; fi
       shell: bash

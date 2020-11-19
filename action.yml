@@ -12,7 +12,6 @@ runs:
     - name: Downloading the WS config file
       # Download the project config file repository.
       run: |
-        env
         git clone https://"$WHITESOURCE_GH_PAT"@github.com/"$WHITESOURCE_CONFIG_REPO" |& tee repo.txt
         repoName=$(cat repo.txt | grep Cloning | cut -d"'" -f2) 
         cp ./$repoName/"$WHITESOURCE_PRODUCT_NAME"/"$WHITESOURCE_PROJECT_NAME"/wss-generated-file-CI.config .
@@ -30,13 +29,6 @@ runs:
     - name: Downloading the WS agent 
       run: curl -LJO https://github.com/whitesource/unified-agent-distribution/releases/latest/download/wss-unified-agent.jar
       shell: bash
-      
-    - name: Replace the API token
-      # use sed to replace the token in the config file 
-      run: sed -i "s/<API_TOKEN>/$KEY/g" wss-generated-file-CI.config
-      shell: bash
-      env:
-         KEY: "$WHITESOURCE_API_KEY"
          
     - name: Execute the scan
       run: java -jar wss-unified-agent.jar -c wss-generated-file-CI.config -apiKey "$WHITESOURCE_API_KEY" -logLevel debug

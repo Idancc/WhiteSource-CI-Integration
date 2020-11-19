@@ -12,7 +12,7 @@ runs:
     - name: Downloading the WS config file
       # Download the project config file repository.
       run: |
-        echo "$WHITESOURCE_CONFIG_REPO"
+        echo "$WHITESOURCE_PROJECT_NAME"
         git clone https://"$WHITESOURCE_GH_PAT"@github.com/"$WHITESOURCE_CONFIG_REPO" |& tee repo.txt
         repoName=$(cat repo.txt | grep Cloning | cut -d"'" -f2) 
         cp ./$repoName/"$WHITESOURCE_PRODUCT_NAME"/"$WHITESOURCE_PROJECT_NAME"/wss-generated-file-CI.config .

@@ -24,7 +24,7 @@ runs:
          if grep -q npm wss-generated-file-CI.config; then sudo apt install npm; fi
          if grep -q gradle wss-generated-file-CI.config; then sudo apt install gradle; fi
          if grep -q hex wss-generated-file-CI.config; then sudo apt install elixir; fi
-         if grep -q python wss-generated-file-CI.config; then sudo apt install virtualenv; fi
+         if grep -q python wss-generated-file-CI.config; then sudo apt-get install python3-setuptools && pip3 install virtualenv; fi
          if grep -q maven wss-generated-file-CI.config; then sudo apt install maven; fi
          if grep -q ant wss-generated-file-CI.config; then sudo apt-get install ant; fi
          if grep -q bower wss-generated-file-CI.config; then sudo npm install -g bower; fi

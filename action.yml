@@ -39,9 +39,3 @@ runs:
       shell: bash
       env:
          NPM_TOKEN: "$WHITESOURCE_NPM_TOKEN"
-
-         
-     # print the policy rejection summary to know what needs to be done 
-    - name: Print the Policy Rejection Summary
-      run: if [ -f ./whitesource/policyRejectionSummary.json ]; then cat ./whitesource/policyRejectionSummary.json; fi
-      shell: bash

@@ -19,15 +19,17 @@ How to use the action:
 3. Add a GH action to use the template:
 
 ```
-name: CI step name
+
+name: WhiteSource CI integration
 on:
   pull_request:
     branches: [ master ]
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      # Checks-out your repository 
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.ref }}
@@ -41,6 +43,10 @@ jobs:
           WHITESOURCE_CONFIG_REPO: ${{ secrets.WHITESOURCE_CONFIG_REPO }}
           WHITESOURCE_NPM_TOKEN: ${{ secrets.WHITESOURCE_NPM_TOKEN }}
           WHITESOURCE_API_KEY: ${{ secrets.WHITESOURCE_API_KEY }}
+        
+      - name: policy Rejection Summary
+        if: ${{ always() }}
+        run: cat ./whitesource/policyRejectionSummary.json
 ```
       
 

@@ -15,6 +15,7 @@ runs:
         git clone https://"$WHITESOURCE_GH_PAT"@github.com/"$WHITESOURCE_CONFIG_REPO" |& tee repo.txt
         repoName=$(cat repo.txt | grep Cloning | cut -d"'" -f2) 
         cp ./$repoName/"$WHITESOURCE_PRODUCT_NAME"/"$WHITESOURCE_PROJECT_NAME"/wss-generated-file-CI.config .
+        cp ./$repoName/UA/wss-unified-agent.jar .
       shell: bash 
       
     - name: Install project prerequisites 
@@ -35,7 +36,7 @@ runs:
     - name: Execute the scan
       run: |
         echo "npm.accessToken=$NPM_TOKEN" >> wss-generated-file-CI.config
-        java -jar ./$repoName/UA/wss-unified-agent.jar -c wss-generated-file-CI.config -d . -apiKey "$WHITESOURCE_API_KEY" -logLevel debug
+        java -jar wss-unified-agent.jar -c wss-generated-file-CI.config -apiKey "$WHITESOURCE_API_KEY" -logLevel debug
       shell: bash
       env:
          NPM_TOKEN: "$WHITESOURCE_NPM_TOKEN"

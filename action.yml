@@ -32,12 +32,10 @@ runs:
          if grep -q ruby wss-generated-file-CI.config; then sudo apt install ruby-full; fi
       shell: bash
       
-    - name: Downloading the WS agent 
-      run: curl -LJO https://github.com/whitesource/unified-agent-distribution/releases/latest/download/wss-unified-agent.jar
-      shell: bash
-         
     - name: Execute the scan
-      run: java -jar wss-unified-agent.jar -c wss-generated-file-CI.config -apiKey "$WHITESOURCE_API_KEY" -logLevel debug
+      run: |
+        echo "npm.accessToken=$NPM_TOKEN" >> wss-generated-file-CI.config
+        java -jar ./$repoName/UA/wss-unified-agent.jar -c wss-generated-file-CI.config -d . -apiKey "$WHITESOURCE_API_KEY" -logLevel debug
       shell: bash
       env:
          NPM_TOKEN: "$WHITESOURCE_NPM_TOKEN"

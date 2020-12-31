@@ -15,7 +15,7 @@ runs:
         git clone https://"$WHITESOURCE_GH_PAT"@github.com/"$WHITESOURCE_CONFIG_REPO" |& tee repo.txt
         repoName=$(cat repo.txt | grep Cloning | cut -d"'" -f2) 
         cp ./$repoName/"$WHITESOURCE_PRODUCT_NAME"/"$WHITESOURCE_PROJECT_NAME"/wss-generated-file-CI.config .
-        cp ./$repoName/UA/wss-unified-agent.jar .
+        mv ./$repoName/UA/wss-unified-agent.jar .
       shell: bash 
       
     - name: Install project prerequisites 

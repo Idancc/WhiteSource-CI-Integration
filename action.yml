@@ -31,6 +31,7 @@ runs:
          if grep -q ant wss-generated-file-CI.config; then sudo apt-get install ant; fi
          if grep -q bower wss-generated-file-CI.config; then sudo npm install -g bower; fi
          if grep -q ruby wss-generated-file-CI.config; then sudo apt install ruby-full; fi
+         if grep -q cocoapods wss-generated-file-CI.config; then sudo apt install ruby-full && sudo gem install cocoapods; fi
       shell: bash
       
     - name: Execute the scan

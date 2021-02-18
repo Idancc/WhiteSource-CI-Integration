@@ -29,7 +29,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    env:
+       SCAN_TYPE: EUA
     steps:
       - uses: actions/checkout@v2
         with:

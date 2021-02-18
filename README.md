@@ -29,9 +29,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-       # Scan type values: CI, EUA
-       SCAN_TYPE: CI
+
     steps:
       - uses: actions/checkout@v2
         with:

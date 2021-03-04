@@ -22,7 +22,7 @@ runs:
       # install dependencies based on the technology in use 
       run: |
          sudo apt update
-         if grep -q npm wss-generated-file-CI.config; then sudo apt install nodejs libssl1.0-dev nodejs-dev node-gyp npm; fi
+         if grep -q npm wss-generated-file-CI.config; then sudo apt install nodejs libssl1.0-dev libnode-dev node-gyp npm; fi
          if grep -q gradle wss-generated-file-CI.config; then sudo apt install gradle; fi
          if grep -q hex wss-generated-file-CI.config; then sudo apt install elixir; fi
          if grep -q python3 wss-generated-file-CI.config; then sudo apt-get install python3-setuptools && sudo pip3 install virtualenv pipenv; fi

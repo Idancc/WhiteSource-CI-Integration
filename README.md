@@ -18,6 +18,7 @@ How to use the action:
 * WHITESOURCE_USER_KEY:     Your WS user key
 
 3. Add a GH action to use the template:
+
 a. Node projects: Change the Node version in line 10 as needed
 ```
 name: WhiteSource CI integration

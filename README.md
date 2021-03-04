@@ -18,7 +18,43 @@ How to use the action:
 * WHITESOURCE_USER_KEY:     Your WS user key
 
 3. Add a GH action to use the template:
-
+a. Node projects: Change the Node version in line 10 as needed
+```
+name: WhiteSource CI integration
+on:
+  pull_request:
+    branches: [ develop, release, master ]
+jobs:
+  WhiteSource:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+      - name: WhiteSource CI integration
+        uses: Idancc/WhiteSource-CI-Integration@v2.6
+        env:
+          WHITESOURCE_PRODUCT_NAME: ${{ secrets.WHITESOURCE_PRODUCT_NAME }}
+          WHITESOURCE_PROJECT_NAME: ${{ github.event.repository.name }}
+          WHITESOURCE_GH_PAT: ${{ secrets.WHITESOURCE_GH_PAT }}
+          WHITESOURCE_CONFIG_REPO: ${{ secrets.WHITESOURCE_CONFIG_REPO }}
+          WHITESOURCE_NPM_TOKEN: ${{ secrets.WHITESOURCE_NPM_TOKEN }}
+          WHITESOURCE_API_KEY: ${{ secrets.WHITESOURCE_API_KEY }}
+          WHITESOURCE_USER_KEY: ${{ secrets.WHITESOURCE_USER_KEY }}
+      - name: policy Rejection Summary
+        if: ${{ always() }}
+        run: cat ./whitesource/policyRejectionSummary.json
+```
+b. Other:
 ```
 
 name: WhiteSource CI integration
@@ -36,7 +72,7 @@ jobs:
           ref: ${{ github.ref }}
         
       - name: WhiteSource CI integration
-        uses: Idancc/WhiteSource-CI-Integration@{VERSION}
+        uses: Idancc/WhiteSource-CI-Integration@v2.5.1
         env:
           WHITESOURCE_PRODUCT_NAME: ${{ secrets.WHITESOURCE_PRODUCT_NAME }}
           WHITESOURCE_PROJECT_NAME: ${{ github.event.repository.name }}
@@ -50,7 +86,65 @@ jobs:
         if: ${{ always() }}
         run: cat ./whitesource/policyRejectionSummary.json
 ```
-      
+c. Python projects: change the Python version if needed, and install required  libraries in the 'Install dependencies' step
+```
+# This is a basic workflow to help you get started with Actions
+
+name: WhiteSource CI integration
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  pull_request:
+    branches: [ master ]
+  push:
+    branches: [ master ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.6]
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Install python requierments 
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+           python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          pip install virtualenv pipenv
+          
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+
+      - name: WhiteSource CI integration
+        uses: Idancc/WhiteSource-CI-Integration@v2.5.1
+        env:
+          WHITESOURCE_PRODUCT_NAME: ${{ secrets.WHITESOURCE_PRODUCT_NAME }}
+          WHITESOURCE_PROJECT_NAME: ${{ github.event.repository.name }}
+          WHITESOURCE_GH_PAT: ${{ secrets.WHITESOURCE_GH_PAT }}
+          WHITESOURCE_CONFIG_REPO: ${{ secrets.WHITESOURCE_CONFIG_REPO }}
+          WHITESOURCE_NPM_TOKEN: ${{ secrets.WHITESOURCE_NPM_TOKEN }}
+          WHITESOURCE_API_KEY: ${{ secrets.WHITESOURCE_API_KEY }}
+          WHITESOURCE_USER_KEY: ${{ secrets.WHITESOURCE_USER_KEY }}
+        
+      - name: policy Rejection Summary
+        if: ${{ always() }}
+        run: cat ./whitesource/policyRejectionSummary.json
+        
+      - name: test 
+        run: echo $SCAN_TYPE
+```
 
 
 

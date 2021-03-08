@@ -37,7 +37,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm ci
+
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.ref }}

@@ -143,8 +143,6 @@ jobs:
         if: ${{ always() }}
         run: cat ./whitesource/policyRejectionSummary.json
         
-      - name: test 
-        run: echo $SCAN_TYPE
 ```
 
 

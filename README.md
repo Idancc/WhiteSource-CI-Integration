@@ -25,6 +25,8 @@ name: WhiteSource CI integration
 on:
   pull_request:
     branches: [ develop, release, master ]
+  schedule:
+    - cron: '0 0 * * 0'
 jobs:
   WhiteSource:
     runs-on: ubuntu-latest
@@ -62,7 +64,8 @@ name: WhiteSource CI integration
 on:
   pull_request:
     branches: [ master ]
-
+  schedule:
+    - cron: '0 0 * * 0'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -98,8 +101,8 @@ name: WhiteSource CI integration
 on:
   pull_request:
     branches: [ master ]
-  push:
-    branches: [ master ]
+  schedule:
+    - cron: '0 0 * * 0'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
